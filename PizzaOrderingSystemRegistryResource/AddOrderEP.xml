@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<endpoint name="AddOrderEP" xmlns="http://ws.apache.org/ns/synapse">
+    <http method="post" uri-template="http://localhost:9767/pizzashop-rs_1.0/services/menu/order"/>
+    <description>For ordering pizza</description>
+</endpoint>

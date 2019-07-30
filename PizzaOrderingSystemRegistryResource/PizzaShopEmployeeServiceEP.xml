@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<endpoint name="PizzaShopEmployeeServiceEP" xmlns="http://ws.apache.org/ns/synapse">
+    <address format="soap11" uri="http://WL359157:8280/services/PizzaShop_Emp_DS.SOAP11Endpoint"/>
+</endpoint>

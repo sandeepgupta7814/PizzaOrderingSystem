@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<api context="/pizzashop_employee" name="PizzaShopEmployeeService_API" xmlns="http://ws.apache.org/ns/synapse">
+    <resource faultSequence="PizzaOrdering_Fault_Sequence" methods="GET" uri-template="/api/list/emp">
+        <inSequence>
+            <log level="custom">
+                <property name="Message Flow" value="-----Get All Pizza Shop Employee Info-----"/>
+            </log>
+            <header name="Action" scope="default" value="urn:GetAllPizzaEmployee"/>
+            <send>
+                <endpoint key="gov:endpoints/PizzaShopEmployeeServiceEP.xml"/>
+            </send>
+        </inSequence>
+        <outSequence>
+            <property name="messageType" scope="axis2" type="STRING" value="application/json"/>
+            <send/>
+        </outSequence>
+    </resource>
+    <resource faultSequence="PizzaOrdering_Fault_Sequence" methods="POST PUT" uri-template="/api/emp*">
+        <inSequence>
+            <log level="custom">
+                <property name="Message Flow" value="-----Add/Update Pizza Shop Employee Info-----"/>
+            </log>
+            <switch source="$axis2:HTTP_METHOD">
+                <case regex="POST">
+                    <payloadFactory media-type="xml">
+                        <format>
+                            <p:AddPizzaEmployee xmlns:p="http://ws.wso2.org/dataservice">
+                                <xs:empid xmlns:xs="http://ws.wso2.org/dataservice">$1</xs:empid>
+                                <xs:empname xmlns:xs="http://ws.wso2.org/dataservice">$2</xs:empname>
+                                <xs:age xmlns:xs="http://ws.wso2.org/dataservice">$3</xs:age>
+                                <xs:salary xmlns:xs="http://ws.wso2.org/dataservice">$4</xs:salary>
+                                <xs:address xmlns:xs="http://ws.wso2.org/dataservice">$5</xs:address>
+                                <xs:shop_location xmlns:xs="http://ws.wso2.org/dataservice">$6</xs:shop_location>
+                            </p:AddPizzaEmployee>
+                        </format>
+                        <args>
+                            <arg evaluator="json" expression="$.Employee.EmpId"/>
+                            <arg evaluator="json" expression="$.Employee.EmpName"/>
+                            <arg evaluator="json" expression="$.Employee.Age"/>
+                            <arg evaluator="json" expression="$.Employee.Salary"/>
+                            <arg evaluator="json" expression="$.Employee.Address"/>
+                            <arg evaluator="json" expression="$.Employee.Shop_Location"/>
+                        </args>
+                    </payloadFactory>
+                    <header name="Action" scope="default" value="urn:AddPizzaEmployee"/>
+                    <send>
+                        <endpoint key="gov:endpoints/PizzaShopEmployeeServiceEP.xml"/>
+                    </send>
+                </case>
+                <case regex="PUT">
+                    <payloadFactory media-type="xml">
+                        <format>
+                            <p:UpdatePizzaEmployee xmlns:p="http://ws.wso2.org/dataservice">
+                                <xs:empid xmlns:xs="http://ws.wso2.org/dataservice">$1</xs:empid>
+                                <xs:empname xmlns:xs="http://ws.wso2.org/dataservice">$2</xs:empname>
+                                <xs:age xmlns:xs="http://ws.wso2.org/dataservice">$3</xs:age>
+                                <xs:salary xmlns:xs="http://ws.wso2.org/dataservice">$4</xs:salary>
+                                <xs:address xmlns:xs="http://ws.wso2.org/dataservice">$5</xs:address>
+                                <xs:shop_location xmlns:xs="http://ws.wso2.org/dataservice">$6</xs:shop_location>
+                            </p:UpdatePizzaEmployee>
+                        </format>
+                        <args>
+                            <arg evaluator="json" expression="$.Employee.EmpId"/>
+                            <arg evaluator="json" expression="$.Employee.EmpName"/>
+                            <arg evaluator="json" expression="$.Employee.Age"/>
+                            <arg evaluator="json" expression="$.Employee.Salary"/>
+                            <arg evaluator="json" expression="$.Employee.Address"/>
+                            <arg evaluator="json" expression="$.Employee.Shop_Location"/>
+                        </args>
+                    </payloadFactory>
+                    <header name="Action" scope="default" value="urn:UpdatePizzaEmployee"/>
+                    <send>
+                        <endpoint key="gov:endpoints/PizzaShopEmployeeServiceEP.xml"/>
+                    </send>
+                </case>
+                <default>
+                    <log level="custom">
+                        <property name="Message Flow" value="Unsupported Opertion"/>
+                    </log>
+                    <drop/>
+                </default>
+            </switch>
+        </inSequence>
+        <outSequence>
+            <property name="messageType" scope="axis2" type="STRING" value="application/json"/>
+            <payloadFactory media-type="json">
+                <format>"Message": "Data saved successfully"</format>
+                <args/>
+            </payloadFactory>
+            <send/>
+        </outSequence>
+    </resource>
+    <resource faultSequence="PizzaOrdering_Fault_Sequence" methods="DELETE GET" uri-template="/api/emp/{empid}">
+        <inSequence>
+            <log level="custom">
+                <property name="Message Flow" value="-----Get/Delete Pizza Shop Employee Info By Id-----"/>
+            </log>
+            <switch source="$axis2:HTTP_METHOD">
+                <case regex="GET">
+                    <payloadFactory media-type="xml">
+                        <format>
+                            <p:GetPizzaEmployeeById xmlns:p="http://ws.wso2.org/dataservice">
+                                <xs:empid xmlns:xs="http://ws.wso2.org/dataservice">$1</xs:empid>
+                            </p:GetPizzaEmployeeById>
+                        </format>
+                        <args>
+                            <arg evaluator="xml" expression="$ctx:uri.var.empid"/>
+                        </args>
+                    </payloadFactory>
+                    <header name="Action" scope="default" value="urn:GetPizzaEmployeeById"/>
+                    <send>
+                        <endpoint key="gov:endpoints/PizzaShopEmployeeServiceEP.xml"/>
+                    </send>
+                </case>
+                <case regex="DELETE">
+                    <payloadFactory media-type="xml">
+                        <format>
+                            <p:DeletePizzaEmployee xmlns:p="http://ws.wso2.org/dataservice">
+                                <xs:empid xmlns:xs="http://ws.wso2.org/dataservice">$1</xs:empid>
+                            </p:DeletePizzaEmployee>
+                        </format>
+                        <args>
+                            <arg evaluator="xml" expression="$ctx:uri.var.empid"/>
+                        </args>
+                    </payloadFactory>
+                    <header name="Action" scope="default" value="urn:DeletePizzaEmployee"/>
+                    <send>
+                        <endpoint key="gov:endpoints/PizzaShopEmployeeServiceEP.xml"/>
+                    </send>
+                </case>
+                <default>
+                    <log level="custom">
+                        <property name="Message Flow" value="Unsupported Opertion"/>
+                    </log>
+                    <drop/>
+                </default>
+            </switch>
+        </inSequence>
+        <outSequence>
+            <property name="messageType" scope="axis2" type="STRING" value="application/json"/>
+            <send/>
+        </outSequence>
+    </resource>
+</api>

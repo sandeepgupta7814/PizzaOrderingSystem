@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?><artifacts>
+    <artifact name="PizzaOrdering_Fault_Sequence" groupId="org.wso2.demo.sequence" version="1.0.0" type="synapse/sequence" serverRole="EnterpriseServiceBus">
+        <file>src/main/synapse-config/sequences/PizzaOrdering_Fault_Sequence.xml</file>
+    </artifact>
+    <artifact name="PizzaOrderingSystem_API" groupId="org.wso2.demo.api" version="1.0.0" type="synapse/api" serverRole="EnterpriseServiceBus">
+        <file>src/main/synapse-config/api/PizzaOrderingSystem_API.xml</file>
+    </artifact>
+    <artifact name="PizzaAdminService" groupId="org.wso2.demo.proxy-service" version="1.0.0" type="synapse/proxy-service" serverRole="EnterpriseServiceBus">
+        <file>src/main/synapse-config/proxy-services/PizzaAdminService.xml</file>
+    </artifact>
+    <artifact name="PizzaShopEmployeeService_API" groupId="org.wso2.demo.api" version="1.0.0" type="synapse/api" serverRole="EnterpriseServiceBus">
+        <file>src/main/synapse-config/api/PizzaShopEmployeeService_API.xml</file>
+    </artifact>
+</artifacts>
